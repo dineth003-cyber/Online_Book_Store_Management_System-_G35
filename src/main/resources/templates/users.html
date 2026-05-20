@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Users</title>
+    <style>
+        table { width: 80%; margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<h2 style="text-align: center;">Registered Users List</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="u : ${userList}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.name}"></td>
+        <td th:text="${u.email}"></td>
+        <td th:text="${u.phoneNumber}"></td>
+        <td th:text="${u.address}"></td>
+    </tr>
+    </tbody>
+</table>
+<div style="text-align: center;">
+    <a href="/register">Add New User</a>
+</div>
+<a href="/checkout">
+    <button>Checkout</button>
+</a>
+
+</body>
+</html>
