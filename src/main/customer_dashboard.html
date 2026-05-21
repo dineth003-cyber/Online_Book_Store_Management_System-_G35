@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Management System</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; padding: 40px; color: #333; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+        h2 { color: #1a73e8; margin: 0; }
+        .welcome-msg { margin-bottom: 20px; color: #555; }
+        .form-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        input { padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        input:focus { border-color: #1a73e8; }
+        .btn-save { grid-column: span 2; background: #28a745; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .btn-save:hover { background: #218838; }
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; color: #666; }
+        .action-btns a { text-decoration: none; font-weight: bold; margin-right: 10px; }
+        .edit-btn { color: #1a73e8; }
+        .delete-btn { color: #d93025; }
+        .logout-btn { padding: 8px 15px; background-color: #d93025; color: white; text-decoration: none; border-radius: 5px; font-size: 14px; }
+        .logout-btn:hover { background-color: #a52119; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-flex">
+        <h2>✨ Customer Manager</h2>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+
+    <div class="welcome-msg">
+        <h3>Welcome, <span th:text="${name}">User</span>! 👋</h3>
+        <p>You have successfully logged into the management system.</p>
+    </div>
+    <div style="margin-bottom: 20px;">
+
+        <a href="/cart">🛒 View Cart</a> |
+
+        <a href="/checkout">💳 Checkout</a> |
+
+        <a href="/reviews">⭐ Reviews</a> |
+
+        <a href="/admin">👨‍💼 Admin</a> |
+
+        <a href="/book-form">📚 Add Book</a> |
+
+        <a href="/books">📖 View Books</a>
+
+    </div>
+
+
+
+
+    <form th:action="@{/addCustomer}" th:object="${customer}" method="post">
+        <div class="form-group">
+            <input type="text" th:field="*{id}" placeholder="ID (e.g. C001)" required>
+            <input type="text" th:field="*{name}" placeholder="Name" required>
+            <input type="email" th:field="*{email}" placeholder="Email" required>
+            <input type="text" name="phone" th:value="*{phoneNumber}" placeholder="Phone" required>
+            <input type="text" th:field="*{address}" placeholder="Address" style="grid-column: span 2;" required>
+            <button type="submit" class="btn-save">Save / Update Customer</button>
+        </div>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cus : ${customers}">
+            <td th:text="${cus.id}"></td>
+            <td th:text="${cus.name}"></td>
+            <td th:text="${cus.email}"></td>
+            <td class="action-btns">
+                <a th:href="@{'/editCustomer/' + ${cus.id}}" class="edit-btn">Edit</a>
+                <a th:href="@{'/deleteCustomer/' + ${cus.id}}" class="delete-btn" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(customers)}">
+            <td colspan="4" style="text-align: center; color: #999;">No customers found.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
